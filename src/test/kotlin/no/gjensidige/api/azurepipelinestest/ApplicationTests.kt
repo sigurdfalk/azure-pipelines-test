@@ -11,6 +11,6 @@ class ApplicationTests {
     fun `Oh yeah, I'm testing something reeeeally important here`() {
         val iAmSoTrue = true
 
-        assertThat(iAmSoTrue).isFalse()
+        assertThat(iAmSoTrue).isTrue()
     }
 }
