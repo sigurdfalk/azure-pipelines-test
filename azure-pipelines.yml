@@ -9,17 +9,18 @@ pr:
     include:
       - '*'
 
-variables:
-  imageName: 'pipelines-spring-boot-docker'
-
 stages:
   - stage: Build
     jobs:
-      - job: BuildApplication
+      - job: Build
+        displayName: Build application and docker image
+        variables:
+          imageName: 'pipelines-spring-boot-docker'
         pool:
           vmImage: 'ubuntu-latest'
         steps:
           - task: Maven@3
+            displayName: Package application jar
             inputs:
               mavenPomFile: 'pom.xml'
               mavenOptions: '-Xmx3072m'
@@ -29,19 +30,16 @@ stages:
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               goals: 'package'
-      - job: BuildDockerImage
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
           - task: Docker@2
-            displayName: Build docker image
-            inputs:
-              repository: $(imageName)
-              command: build
-              Dockerfile: ./Dockerfile
+              displayName: Build docker image
+              inputs:
+                repository: $(imageName)
+                command: build
+                Dockerfile: ./Dockerfile
   - stage: Deploy
     jobs:
       - deployment: TestDeploy
+        displayName: Test deploy step
         pool:
           vmImage: 'ubuntu-latest'
         environment: 'dev'
