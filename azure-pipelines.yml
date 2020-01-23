@@ -15,7 +15,7 @@ variables:
 stages:
   - stage: Build
     jobs:
-      - job: Build
+      - job: BuildApplication
         pool:
           vmImage: 'ubuntu-latest'
         steps:
@@ -29,6 +29,10 @@ stages:
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               goals: 'package'
+      - job: BuildDockerImage
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
           - task: Docker@2
             displayName: Build docker image
             inputs:
