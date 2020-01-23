@@ -11,21 +11,21 @@ pr:
 
 stages:
   - stage: Build
-    displayName: Build tasks
+    displayName: 'Build tasks'
     jobs:
       - job: Build
-        displayName: Build application and docker image
+        displayName: 'Build application and docker image'
         variables:
           imageName: 'pipelines-spring-boot-docker'
-          buildRevision: format('{0:yyyyMMdd}-{1}', pipeline.startTime, Build.SourceVersion)
+          buildRevision: $(Build.SourceVersion)-$(date:yyyyMMdd)
         pool:
           vmImage: 'ubuntu-latest'
         steps:
           - task: Maven@3
-            displayName: Package application jar
+            displayName: 'Package application jar'
             inputs:
               mavenPomFile: 'pom.xml'
-              mavenOptions: format('-Xmx3072m -revision={0}', buildRevision)
+              mavenOptions: '-Xmx3072m'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.11'
               jdkArchitectureOption: 'x64'
@@ -33,7 +33,7 @@ stages:
               testResultsFiles: '**/TEST-*.xml'
               goals: 'package'
           - task: Docker@2
-            displayName: Build docker image
+            displayName: 'Build docker image'
             inputs:
               repository: $(imageName)
               command: build
@@ -42,7 +42,7 @@ stages:
     displayName: Deploy tasks
     jobs:
       - deployment: TestDeploy
-        displayName: Test deploy step
+        displayName: 'Test deploy step'
         pool:
           vmImage: 'ubuntu-latest'
         environment: 'dev'
