@@ -41,8 +41,8 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         environment: 'dev'
-          strategy:
-            runOnce:
-              deploy:
-                steps:
-                  - script: echo my first deployment
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo my first deployment
