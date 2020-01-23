@@ -31,11 +31,11 @@ stages:
               testResultsFiles: '**/TEST-*.xml'
               goals: 'package'
           - task: Docker@2
-              displayName: Build docker image
-              inputs:
-                repository: $(imageName)
-                command: build
-                Dockerfile: ./Dockerfile
+            displayName: Build docker image
+            inputs:
+              repository: $(imageName)
+              command: build
+              Dockerfile: ./Dockerfile
   - stage: Deploy
     jobs:
       - deployment: TestDeploy
