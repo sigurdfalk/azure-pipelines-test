@@ -32,6 +32,7 @@ stages:
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               goals: 'package'
+              options: '-Drevision=123456789'
           - task: Docker@2
             displayName: 'Build docker image'
             inputs:
